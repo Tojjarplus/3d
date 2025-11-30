@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LeenGroups 3D Display - With Logos</title>
+  <title>LeenGroups 3D Display</title>
 
   <style>
     * {
@@ -18,7 +18,7 @@
       height: 100vh;
       width: 100vw;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(140deg, #ffffff 0%, #eff4ff 40%, #eaf5ff 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f3f7ff 40%, #e8f2ff 100%);
       color: #0b1b3b;
     }
 
@@ -32,18 +32,19 @@
     .ui-container {
       position: absolute;
       inset: 0;
+      padding: 32px;
       z-index: 10;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 32px;
       pointer-events: none;
     }
 
-    /* Header */
+    /* HEADER */
     .header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     .logo-title {
@@ -56,25 +57,24 @@
 
     .tagline {
       font-size: 1.2em;
-      opacity: 0.75;
-      color: #4b5563;
+      opacity: 0.7;
     }
 
-    /* Glass card area */
+    /* CONTENT GLASS CARD */
     .content {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
       text-align: center;
     }
 
     .glass-card {
       background: rgba(255, 255, 255, 0.65);
-      border-radius: 28px;
+      backdrop-filter: blur(18px);
       padding: 32px;
-      max-width: 900px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+      border-radius: 24px;
+      width: 900px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+      pointer-events: auto;
     }
 
     .company-name {
@@ -83,50 +83,43 @@
       background: linear-gradient(to right, #1e3a8a, #2563eb, #22c55e);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 16px;
     }
 
     .company-info {
       font-size: 1.2em;
-      font-weight: 400;
       color: #4b5563;
-      margin-bottom: 16px;
-      line-height: 1.5;
+      margin-top: 14px;
     }
 
     .arabic {
-      direction: rtl;
+      margin-top: 16px;
       font-family: "Cairo", sans-serif;
-      font-size: 1.3em;
-      font-weight: 500;
+      direction: rtl;
+      font-size: 1.35em;
       color: #111827;
-      margin-top: 14px;
-      margin-bottom: 8px;
       line-height: 1.7;
     }
 
-    /* Controls */
+    /* CONTROLS */
     .controls {
+      margin-top: 22px;
       display: flex;
       justify-content: center;
       gap: 15px;
-      margin-top: 20px;
-      pointer-events: auto;
     }
 
     .control-btn {
       width: 54px;
       height: 54px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e5e7eb;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid rgba(0, 0, 0, 0.12);
       font-size: 1.4em;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
       transition: 0.25s;
     }
 
@@ -135,18 +128,17 @@
       background: white;
     }
 
-    /* Progress bar */
     .progress-wrapper {
+      margin-top: 18px;
       display: flex;
       justify-content: center;
-      margin-top: 18px;
     }
 
     .progress-container {
-      width: 320px;
+      width: 330px;
       height: 6px;
       background: #e5e7eb;
-      border-radius: 99px;
+      border-radius: 20px;
       overflow: hidden;
     }
 
@@ -154,11 +146,10 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, #22c55e, #0ea5e9, #6366f1);
-      box-shadow: 0 3px 12px rgba(56, 189, 248, 0.85);
-      transition: width 0.1s linear;
+      transition: width 0.15s linear;
     }
 
-    /* Footer */
+    /* FOOTER */
     .footer {
       display: flex;
       justify-content: space-between;
@@ -166,8 +157,8 @@
     }
 
     .counter {
-      background: #ffffffdd;
-      padding: 8px 14px;
+      background: white;
+      padding: 8px 16px;
       border-radius: 20px;
       border: 1px solid #e5e7eb;
       font-weight: 600;
@@ -177,7 +168,6 @@
 </head>
 
 <body>
-  <!-- UI OVERLAY -->
   <div class="ui-container">
     <div class="header">
       <div class="logo-title">LeenGroups</div>
@@ -206,16 +196,15 @@
 
     <div class="footer">
       <div class="counter" id="companyCounter">1 / 4</div>
-      <div class="counter">LeenGroups Display</div>
+      <div class="counter">LeenGroups Presentation</div>
     </div>
   </div>
 
-  <!-- 3D LIBRARIES -->
+  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
   <script>
-    // === SCENE SETUP ===
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       55,
@@ -227,86 +216,101 @@
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
     document.body.appendChild(renderer.domElement);
 
-    // === LIGHTING ===
+    /* LIGHTS */
     scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-    const directional = new THREE.DirectionalLight(0xffffff, 1);
-    directional.position.set(5, 8, 10);
-    scene.add(directional);
+    const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+    mainLight.position.set(4, 6, 10);
+    scene.add(mainLight);
 
-    // === GLASS SPHERE ===
-    const sphereGeo = new THREE.SphereGeometry(1.8, 72, 72);
-    const sphereMat = new THREE.MeshPhysicalMaterial({
+    const loader = new THREE.TextureLoader();
+
+    /* GLASS SPHERE */
+    const glassSphereGeo = new THREE.SphereGeometry(1.8, 72, 72);
+    const glassSphereMat = new THREE.MeshPhysicalMaterial({
       color: 0xe5ecff,
       metalness: 0.3,
       roughness: 0.15,
       transmission: 0.45,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.92,
       clearcoat: 1
     });
-    const coreSphere = new THREE.Mesh(sphereGeo, sphereMat);
-    scene.add(coreSphere);
+    const glassSphere = new THREE.Mesh(glassSphereGeo, glassSphereMat);
+    scene.add(glassSphere);
 
-    // === LOGO CUBES ===
-    const loader = new THREE.TextureLoader();
-    const logoTextures = [
+    /* LOGO SURFACE SPHERE */
+    const logoSphereGeo = new THREE.SphereGeometry(1.79, 72, 72);
+    const logoSphereMat = new THREE.MeshBasicMaterial({
+      map: null,
+      transparent: true,
+      opacity: 1
+    });
+    const logoSphere = new THREE.Mesh(logoSphereGeo, logoSphereMat);
+    scene.add(logoSphere);
+
+    /* LOAD LOGOS FOR CENTER SPHERE */
+    const centerLogos = [
       loader.load("logos/rba.png"),
       loader.load("logos/mohasbkom.png"),
       loader.load("logos/ragm.png"),
       loader.load("logos/green.png"),
     ];
 
+    function updateCenterLogo(i) {
+      gsap.to(logoSphere.material, {
+        opacity: 0,
+        duration: 0.4,
+        onComplete: () => {
+          logoSphere.material.map = centerLogos[i];
+          logoSphere.material.needsUpdate = true;
+          gsap.to(logoSphere.material, { opacity: 1, duration: 0.5 });
+        }
+      });
+    }
+
+    /* ROTATING LOGO CUBES */
+    const cubeTextures = centerLogos;
     const cubeGeo = new THREE.BoxGeometry(1.3, 1.3, 1.3);
 
-    const cubes = logoTextures.map((texture) => {
-      const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true
-      });
-
-      const cube = new THREE.Mesh(
-        cubeGeo,
-        [material, material, material, material, material, material]
-      );
-
-      return cube;
+    const cubes = cubeTextures.map(tex => {
+      const m = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
+      const c = new THREE.Mesh(cubeGeo, [m, m, m, m, m, m]);
+      return c;
     });
 
     cubes.forEach((cube, i) => {
       const angle = (i / cubes.length) * Math.PI * 2;
-      cube.position.set(Math.cos(angle) * 4.5, Math.sin(angle) * 2.2, 0);
+      cube.position.set(Math.cos(angle) * 4.6, Math.sin(angle) * 2.5, 0);
       scene.add(cube);
     });
 
-    // === COMPANY DATA ===
+    /* COMPANY DATA */
     const companies = [
       {
-        name: "RBA — Riyadh Bin Bleihed Co.",
-        info: "Chartered Accountants & Financial Consultants",
-        arabic:
-          "شركة رياض بن بليهد محاسبون ومراجعون قانونيون ومستشارون ماليون.",
+        n: "RBA — Riyadh Bin Bleihed Co.",
+        i: "Chartered Accountants & Financial Consultants",
+        a: "شركة رياض بن بليهد محاسبون ومراجعون قانونيون ومستشارون ماليون."
       },
       {
-        name: "Mohasbkom — Smart Accounting",
-        info: "Cloud Accounting Services",
-        arabic: "حلول محاسبية سحابية للمنشآت الصغيرة والمتوسطة.",
+        n: "Mohasbkom — Smart Accounting",
+        i: "Cloud Accounting Services",
+        a: "حلول محاسبية سحابية للمنشآت الصغيرة والمتوسطة."
       },
       {
-        name: "RAGM Cloud — Digital Innovation",
-        info: "Next-Gen Cloud ERP",
-        arabic: "رقم كلاود — منصة سحابية لإدارة الأعمال.",
+        n: "RAGM Cloud — Digital ERP",
+        i: "Next-Gen Cloud ERP",
+        a: "رقم كلاود — منصة سحابية لإدارة الأعمال."
       },
       {
-        name: "GREEN Energy Future",
-        info: "Mechanical & Electrical Contracting",
-        arabic: "شركة متخصصة في الطاقة المتجددة والمقاولات الكهربائية.",
-      },
+        n: "GREEN Energy Future",
+        i: "Mechanical & Electrical Contracting",
+        a: "شركة متخصصة في الطاقة المتجددة والمقاولات."
+      }
     ];
 
-    // === UI ELEMENTS ===
+    /* UI BIND */
     const nameEl = document.getElementById("companyName");
     const infoEl = document.getElementById("companyInfo");
     const arabicEl = document.getElementById("companyArabic");
@@ -315,25 +319,32 @@
 
     let index = 0;
     let paused = false;
+    let progress = 0;
 
     function updateInfo() {
       const c = companies[index];
-
-      nameEl.textContent = c.name;
-      infoEl.textContent = c.info;
-      arabicEl.textContent = c.arabic;
+      nameEl.textContent = c.n;
+      infoEl.textContent = c.i;
+      arabicEl.textContent = c.a;
       counterEl.textContent = `${index + 1} / ${companies.length}`;
+    }
+
+    function resetBar() {
+      progress = 0;
+      progressBar.style.width = "0%";
     }
 
     function next() {
       index = (index + 1) % companies.length;
       updateInfo();
+      updateCenterLogo(index);
       resetBar();
     }
 
     function prev() {
       index = (index - 1 + companies.length) % companies.length;
       updateInfo();
+      updateCenterLogo(index);
       resetBar();
     }
 
@@ -344,42 +355,32 @@
       document.getElementById("pauseBtn").textContent = paused ? "▶" : "⏸";
     };
 
-    // === AUTO PROGRESS BAR ===
-    let progress = 0;
-
-    function resetBar() {
-      progress = 0;
-      progressBar.style.width = "0%";
-    }
+    updateInfo();
+    updateCenterLogo(0);
 
     setInterval(() => {
       if (!paused) {
-        progress += 0.8;
+        progress += 0.9;
         if (progress >= 100) next();
         progressBar.style.width = progress + "%";
       }
-    }, 130);
+    }, 120);
 
-    updateInfo();
-
-    // === MAIN ANIMATION LOOP ===
+    /* MAIN ANIMATION LOOP */
     function animate() {
       requestAnimationFrame(animate);
 
-      // Rotate sphere
-      coreSphere.rotation.y += 0.002;
+      glassSphere.rotation.y += 0.002;
 
-      // Rotate cubes
       cubes.forEach((cube, i) => {
         cube.rotation.x += 0.01;
         cube.rotation.y += 0.01;
 
-        const angle = (i / cubes.length) * Math.PI * 2 + Date.now() * 0.0003;
-        cube.position.x = Math.cos(angle) * 4.5;
-        cube.position.z = Math.sin(angle) * 3.5;
+        let t = Date.now() * 0.00035 + i;
+        cube.position.x = Math.cos(t) * 4.6;
+        cube.position.z = Math.sin(t) * 3.6;
       });
 
-      camera.lookAt(0, 0, 0);
       renderer.render(scene, camera);
     }
 

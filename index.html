@@ -3,76 +3,81 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LeenGroups Calm Glass Display</title>
+<title>LeenGroups Calm Logo Display</title>
 
 <style>
-  * {margin:0; padding:0; box-sizing:border-box;}
+  *{margin:0;padding:0;box-sizing:border-box;}
   body{
-    height:100vh; width:100vw; overflow:hidden;
-    font-family:"Segoe UI", sans-serif;
+    height:100vh;width:100vw;overflow:hidden;
+    font-family:"Segoe UI",sans-serif;
     background:linear-gradient(145deg,#f9fafb,#edf2ff);
   }
 
-  /* UI */
   .ui-container{
-    position:absolute; inset:0; z-index:10;
-    padding:30px;
-    display:flex; flex-direction:column;
-    justify-content:space-between;
-    pointer-events:none;
+    position:absolute;inset:0;padding:30px;
+    z-index:10;display:flex;flex-direction:column;
+    justify-content:space-between;pointer-events:none;
   }
 
-  .header{display:flex; justify-content:space-between;}
+  .header{display:flex;justify-content:space-between;align-items:center;}
   .logo-title{
     font-size:2.2em;font-weight:800;
     background:linear-gradient(to right,#0f172a,#2563eb);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
   }
-  .tagline{font-size:1.1em; opacity:.7; color:#4b5563;}
+  .lang-btn{
+    pointer-events:auto;
+    background:white;border:1px solid #d1d5db;
+    padding:8px 16px;border-radius:8px;
+    cursor:pointer;font-weight:600;
+    box-shadow:0 4px 14px rgba(0,0,0,0.1);
+  }
 
   .glass-card{
-    max-width:850px; margin:auto;
+    max-width:900px;margin:auto;
     background:rgba(255,255,255,0.75);
-    padding:25px; border-radius:22px;
+    padding:25px;border-radius:22px;
     backdrop-filter:blur(18px);
     box-shadow:0 12px 32px rgba(0,0,0,0.1);
     pointer-events:auto;
+    text-align:center;
   }
 
   .company-name{
-    font-size:2em; font-weight:800;
+    font-size:2.2em;font-weight:800;
     background:linear-gradient(to right,#1e3a8a,#2563eb);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
   }
-  .company-info{
-    font-size:1.15em; color:#4b5563; margin-top:12px;
-  }
+  .company-info{font-size:1.15em;color:#4b5563;margin-top:12px;}
   .arabic{
-    font-family:"Cairo",sans-serif;
-    direction:rtl; margin-top:12px;
-    font-size:1.25em; line-height:1.7;
-    color:#111827;
+    direction:rtl;font-family:"Cairo",sans-serif;
+    font-size:1.25em;color:#111827;margin-top:14px;line-height:1.8;
   }
 
-  .controls{margin-top:20px; display:flex; justify-content:center; gap:15px;}
+  .controls{
+    margin-top:20px;
+    display:flex;justify-content:center;gap:15px;
+  }
   .btn{
-    width:54px; height:54px; border-radius:50%;
-    background:white; border:1px solid #ddd;
-    display:flex; align-items:center; justify-content:center;
-    font-size:1.4em; cursor:pointer;
+    width:54px;height:54px;border-radius:50%;
+    background:white;border:1px solid #ddd;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:1.4em;
     box-shadow:0 8px 22px rgba(0,0,0,0.1);
     transition:0.25s;
+    pointer-events:auto;
   }
   .btn:hover{transform:scale(1.08);}
-  .progress-wrapper{margin-top:18px; text-align:center;}
 
+  .progress-wrapper{margin-top:20px;}
   .progress-bar{
-    width:320px; height:6px; border-radius:20px;
-    margin:auto; background:#e5e7eb; overflow:hidden;
+    width:330px;height:6px;background:#e5e7eb;
+    border-radius:20px;margin:auto;overflow:hidden;
   }
   .progress-fill{
-    height:100%; width:0%; background:linear-gradient(90deg,#2563eb,#22c55e);
+    height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#22c55e);
     transition:width 0.2s linear;
   }
 </style>
@@ -86,18 +91,18 @@
 <div class="ui-container">
   <div class="header">
     <div class="logo-title">LeenGroups</div>
-    <div class="tagline">The Power of Three</div>
+    <button id="langBtn" class="lang-btn">AR</button>
   </div>
 
   <div class="glass-card">
-    <div id="companyName" class="company-name">LeenGroups</div>
-    <div id="companyInfo" class="company-info">The Power of Three</div>
-    <div id="companyArabic" class="arabic">قوة الثلاثة</div>
+    <div id="companyName" class="company-name"></div>
+    <div id="companyInfo" class="company-info"></div>
+    <div id="companyArabic" class="arabic"></div>
 
     <div class="controls">
       <div class="btn" id="prevBtn">←</div>
       <div class="btn" id="pauseBtn">⏸</div>
-      <div class="btn" id="nextBtn">→</div>
+      <div class "btn" id="nextBtn">→</div>
     </div>
 
     <div class="progress-wrapper">
@@ -121,17 +126,17 @@
 
   scene.add(new THREE.AmbientLight(0xffffff,1));
 
-  // GLASS SPHERE BACKGROUND
+  // Glass Sphere
   const glassGeo=new THREE.SphereGeometry(2,64,64);
   const glassMat=new THREE.MeshPhysicalMaterial({
-    color:0xffffff, roughness:0.1, metalness:0.1,
-    transmission:0.6, transparent:true, opacity:0.9
+    color:0xffffff,roughness:0.1,metalness:0.1,
+    transmission:0.65,transparent:true,opacity:0.9
   });
   const glassSphere=new THREE.Mesh(glassGeo,glassMat);
   scene.add(glassSphere);
 
-  // LOGO SPHERE (TEXTURE ONLY)
-  const textureLoader=new THREE.TextureLoader();
+  // Logo Sphere
+  const loader=new THREE.TextureLoader();
   const logoMat=new THREE.MeshBasicMaterial({map:null,transparent:true});
   const logoSphere=new THREE.Mesh(new THREE.SphereGeometry(1.99,64,64),logoMat);
   scene.add(logoSphere);
@@ -139,44 +144,78 @@
   // COMPANY DATA
   const companies=[
     {
-      name:"RBA — Riyadh Bin Bleihed",
-      info:"Auditors & Financial Consultants",
-      arabic:"شركة رياض بن بليهد محاسبون ومراجعون قانونيون ومستشارون ماليون.",
-      logo:"logos/rba.png"
+      logo:"logos/rba.png",
+      en:{
+        name:"Riyadh Bin Bleihed (RBA)",
+        info:"Professional auditing, tax, forensic accounting, internal audit and financial advisory services following international standards."
+      },
+      ar:{
+        name:"شركة رياض بن بليهد (RBA)",
+        info:"نقدّم خدمات المراجعة، الفحص، الزكاة والضرائب، المراجعة الداخلية، المحاسبة القضائية والاستشارات المالية بمعايير عالية."
+      }
     },
     {
-      name:"Mohasbkom — Smart Accounting",
-      info:"Cloud Accounting Services",
-      arabic:"حلول محاسبية سحابية للمنشآت الصغيرة والمتوسطة.",
-      logo:"logos/mohasbkom.png"
+      logo:"logos/mohasbkom.png",
+      en:{
+        name:"Mohasbkom — Cloud Accounting",
+        info:"Modern cloud accounting and bookkeeping for SMEs with financial reporting and performance measurement."
+      },
+      ar:{
+        name:"محاسبكم — حلول محاسبية",
+        info:"حلول محاسبية سحابية، مسك دفاتر، إعداد تقارير مالية، وقياس مؤشرات الأداء للمنشآت الصغيرة والمتوسطة."
+      }
     },
     {
-      name:"RAGM Cloud — Digital ERP",
-      info:"Cloud ERP Platform",
-      arabic:"رقم كلاود — منصة سحابية لإدارة الأعمال.",
-      logo:"logos/ragm.png"
+      logo:"logos/ragm.png",
+      en:{
+        name:"RAGM Cloud — Smart ERP",
+        info:"Cloud-based accounting & sales management with invoices, reports, inventory tracking, and business insights."
+      },
+      ar:{
+        name:"رقم كلاود — نظام محاسبي سحابي",
+        info:"نظام سحابي لإدارة المحاسبة والمبيعات والمخزون والفواتير مع تقارير دقيقة وتحسين اتخاذ القرار."
+      }
     },
     {
-      name:"Green Energy Future",
-      info:"Mechanical & Electrical Contracting",
-      arabic:"شركة للطاقة المتجددة والمقاولات الكهربائية.",
-      logo:"logos/green.png"
+      logo:"logos/green.png",
+      en:{
+        name:"Green Energy Future",
+        info:"Mechanical & electrical contracting and solar PV systems with professional engineering solutions."
+      },
+      ar:{
+        name:"مستقبل الطاقة الخضراء",
+        info:"مؤسسة للمقاولات الميكانيكية والكهربائية وتصميم وتنفيذ حلول الطاقة الشمسية بجودة عالية."
+      }
     }
   ];
 
-  let index=0, paused=false, progress=0;
+  let index=0,paused=false,lang="en",progress=0;
+
+  const nameEl=document.getElementById("companyName");
+  const infoEl=document.getElementById("companyInfo");
+  const arEl=document.getElementById("companyArabic");
+  const progressEl=document.getElementById("progressFill");
 
   function updateCompany(){
     const c=companies[index];
-    document.getElementById("companyName").textContent=c.name;
-    document.getElementById("companyInfo").textContent=c.info;
-    document.getElementById("companyArabic").textContent=c.arabic;
 
+    // update sphere texture
     gsap.to(logoMat,{opacity:0,duration:0.4,onComplete:()=>{
-      logoMat.map=textureLoader.load(c.logo);
+      logoMat.map=loader.load(c.logo);
       logoMat.needsUpdate=true;
       gsap.to(logoMat,{opacity:1,duration:0.6});
     }});
+
+    // texts
+    if(lang==="en"){
+      nameEl.textContent=c.en.name;
+      infoEl.textContent=c.en.info;
+      arEl.textContent="";
+    }else{
+      nameEl.textContent=c.ar.name;
+      infoEl.textContent="";
+      arEl.textContent=c.ar.info;
+    }
   }
 
   function next(){
@@ -192,26 +231,33 @@
 
   document.getElementById("nextBtn").onclick=next;
   document.getElementById("prevBtn").onclick=prev;
+
   document.getElementById("pauseBtn").onclick=()=>{
     paused=!paused;
     document.getElementById("pauseBtn").textContent=paused?"▶":"⏸";
   };
 
+  // Language switching
+  document.getElementById("langBtn").onclick=()=>{
+    lang=lang==="en"?"ar":"en";
+    document.getElementById("langBtn").textContent=lang==="en"?"AR":"EN";
+    updateCompany();
+  };
+
   updateCompany();
 
-  // Auto progress
+  // Auto Slide Progress
   setInterval(()=>{
     if(paused) return;
-    progress+=1.25;
-    document.getElementById("progressFill").style.width=progress+"%";
+    progress+=1.2;
+    progressEl.style.width=progress+"%";
     if(progress>=100){next();}
   },100);
 
-  // Animation
   function animate(){
     requestAnimationFrame(animate);
-    glassSphere.rotation.y+=0.0012;
-    logoSphere.rotation.y+=0.0013;
+    glassSphere.rotation.y+=0.0011;
+    logoSphere.rotation.y+=0.00115;
     renderer.render(scene,camera);
   }
   animate();
